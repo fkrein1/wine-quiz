@@ -3,9 +3,9 @@ query GetQuestions {
     title
     id
     answers {
-      body
+      wineBody
       id
-      reds
+      redWineShare
       title
       image {
         url

@@ -30,7 +30,6 @@ export type Aggregate = {
 
 export type Answer = Node & {
   __typename?: 'Answer';
-  body: Scalars['Int'];
   /** The time the document was created */
   createdAt: Scalars['DateTime'];
   /** User that created this document */
@@ -47,7 +46,7 @@ export type Answer = Node & {
   /** User that last published this document */
   publishedBy?: Maybe<User>;
   question?: Maybe<Question>;
-  reds?: Maybe<Fraction>;
+  redWineShare?: Maybe<Scalars['Float']>;
   scheduledIn: Array<ScheduledOperation>;
   /** System stage field */
   stage: Stage;
@@ -56,6 +55,7 @@ export type Answer = Node & {
   updatedAt: Scalars['DateTime'];
   /** User that last updated this document */
   updatedBy?: Maybe<User>;
+  wineBody: Scalars['Int'];
 };
 
 
@@ -126,13 +126,13 @@ export type AnswerConnection = {
 };
 
 export type AnswerCreateInput = {
-  body: Scalars['Int'];
   createdAt?: InputMaybe<Scalars['DateTime']>;
   image?: InputMaybe<AssetCreateOneInlineInput>;
   question?: InputMaybe<QuestionCreateOneInlineInput>;
-  reds?: InputMaybe<Fraction>;
+  redWineShare?: InputMaybe<Scalars['Float']>;
   title: Scalars['String'];
   updatedAt?: InputMaybe<Scalars['DateTime']>;
+  wineBody: Scalars['Int'];
 };
 
 export type AnswerCreateManyInlineInput = {
@@ -168,21 +168,6 @@ export type AnswerManyWhereInput = {
   OR?: InputMaybe<Array<AnswerWhereInput>>;
   /** Contains search across all appropriate fields. */
   _search?: InputMaybe<Scalars['String']>;
-  body?: InputMaybe<Scalars['Int']>;
-  /** All values greater than the given value. */
-  body_gt?: InputMaybe<Scalars['Int']>;
-  /** All values greater than or equal the given value. */
-  body_gte?: InputMaybe<Scalars['Int']>;
-  /** All values that are contained in given list. */
-  body_in?: InputMaybe<Array<Scalars['Int']>>;
-  /** All values less than the given value. */
-  body_lt?: InputMaybe<Scalars['Int']>;
-  /** All values less than or equal the given value. */
-  body_lte?: InputMaybe<Scalars['Int']>;
-  /** All values that are not equal to given value. */
-  body_not?: InputMaybe<Scalars['Int']>;
-  /** All values that are not contained in given list. */
-  body_not_in?: InputMaybe<Array<Scalars['Int']>>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   /** All values greater than the given value. */
   createdAt_gt?: InputMaybe<Scalars['DateTime']>;
@@ -236,13 +221,21 @@ export type AnswerManyWhereInput = {
   publishedAt_not_in?: InputMaybe<Array<Scalars['DateTime']>>;
   publishedBy?: InputMaybe<UserWhereInput>;
   question?: InputMaybe<QuestionWhereInput>;
-  reds?: InputMaybe<Fraction>;
+  redWineShare?: InputMaybe<Scalars['Float']>;
+  /** All values greater than the given value. */
+  redWineShare_gt?: InputMaybe<Scalars['Float']>;
+  /** All values greater than or equal the given value. */
+  redWineShare_gte?: InputMaybe<Scalars['Float']>;
   /** All values that are contained in given list. */
-  reds_in?: InputMaybe<Array<Fraction>>;
+  redWineShare_in?: InputMaybe<Array<Scalars['Float']>>;
+  /** All values less than the given value. */
+  redWineShare_lt?: InputMaybe<Scalars['Float']>;
+  /** All values less than or equal the given value. */
+  redWineShare_lte?: InputMaybe<Scalars['Float']>;
   /** All values that are not equal to given value. */
-  reds_not?: InputMaybe<Fraction>;
+  redWineShare_not?: InputMaybe<Scalars['Float']>;
   /** All values that are not contained in given list. */
-  reds_not_in?: InputMaybe<Array<Fraction>>;
+  redWineShare_not_in?: InputMaybe<Array<Scalars['Float']>>;
   scheduledIn_every?: InputMaybe<ScheduledOperationWhereInput>;
   scheduledIn_none?: InputMaybe<ScheduledOperationWhereInput>;
   scheduledIn_some?: InputMaybe<ScheduledOperationWhereInput>;
@@ -281,31 +274,46 @@ export type AnswerManyWhereInput = {
   /** All values that are not contained in given list. */
   updatedAt_not_in?: InputMaybe<Array<Scalars['DateTime']>>;
   updatedBy?: InputMaybe<UserWhereInput>;
+  wineBody?: InputMaybe<Scalars['Int']>;
+  /** All values greater than the given value. */
+  wineBody_gt?: InputMaybe<Scalars['Int']>;
+  /** All values greater than or equal the given value. */
+  wineBody_gte?: InputMaybe<Scalars['Int']>;
+  /** All values that are contained in given list. */
+  wineBody_in?: InputMaybe<Array<Scalars['Int']>>;
+  /** All values less than the given value. */
+  wineBody_lt?: InputMaybe<Scalars['Int']>;
+  /** All values less than or equal the given value. */
+  wineBody_lte?: InputMaybe<Scalars['Int']>;
+  /** All values that are not equal to given value. */
+  wineBody_not?: InputMaybe<Scalars['Int']>;
+  /** All values that are not contained in given list. */
+  wineBody_not_in?: InputMaybe<Array<Scalars['Int']>>;
 };
 
 export enum AnswerOrderByInput {
-  BodyAsc = 'body_ASC',
-  BodyDesc = 'body_DESC',
   CreatedAtAsc = 'createdAt_ASC',
   CreatedAtDesc = 'createdAt_DESC',
   IdAsc = 'id_ASC',
   IdDesc = 'id_DESC',
   PublishedAtAsc = 'publishedAt_ASC',
   PublishedAtDesc = 'publishedAt_DESC',
-  RedsAsc = 'reds_ASC',
-  RedsDesc = 'reds_DESC',
+  RedWineShareAsc = 'redWineShare_ASC',
+  RedWineShareDesc = 'redWineShare_DESC',
   TitleAsc = 'title_ASC',
   TitleDesc = 'title_DESC',
   UpdatedAtAsc = 'updatedAt_ASC',
-  UpdatedAtDesc = 'updatedAt_DESC'
+  UpdatedAtDesc = 'updatedAt_DESC',
+  WineBodyAsc = 'wineBody_ASC',
+  WineBodyDesc = 'wineBody_DESC'
 }
 
 export type AnswerUpdateInput = {
-  body?: InputMaybe<Scalars['Int']>;
   image?: InputMaybe<AssetUpdateOneInlineInput>;
   question?: InputMaybe<QuestionUpdateOneInlineInput>;
-  reds?: InputMaybe<Fraction>;
+  redWineShare?: InputMaybe<Scalars['Float']>;
   title?: InputMaybe<Scalars['String']>;
+  wineBody?: InputMaybe<Scalars['Int']>;
 };
 
 export type AnswerUpdateManyInlineInput = {
@@ -326,9 +334,9 @@ export type AnswerUpdateManyInlineInput = {
 };
 
 export type AnswerUpdateManyInput = {
-  body?: InputMaybe<Scalars['Int']>;
-  reds?: InputMaybe<Fraction>;
+  redWineShare?: InputMaybe<Scalars['Float']>;
   title?: InputMaybe<Scalars['String']>;
+  wineBody?: InputMaybe<Scalars['Int']>;
 };
 
 export type AnswerUpdateManyWithNestedWhereInput = {
@@ -384,21 +392,6 @@ export type AnswerWhereInput = {
   OR?: InputMaybe<Array<AnswerWhereInput>>;
   /** Contains search across all appropriate fields. */
   _search?: InputMaybe<Scalars['String']>;
-  body?: InputMaybe<Scalars['Int']>;
-  /** All values greater than the given value. */
-  body_gt?: InputMaybe<Scalars['Int']>;
-  /** All values greater than or equal the given value. */
-  body_gte?: InputMaybe<Scalars['Int']>;
-  /** All values that are contained in given list. */
-  body_in?: InputMaybe<Array<Scalars['Int']>>;
-  /** All values less than the given value. */
-  body_lt?: InputMaybe<Scalars['Int']>;
-  /** All values less than or equal the given value. */
-  body_lte?: InputMaybe<Scalars['Int']>;
-  /** All values that are not equal to given value. */
-  body_not?: InputMaybe<Scalars['Int']>;
-  /** All values that are not contained in given list. */
-  body_not_in?: InputMaybe<Array<Scalars['Int']>>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   /** All values greater than the given value. */
   createdAt_gt?: InputMaybe<Scalars['DateTime']>;
@@ -452,13 +445,21 @@ export type AnswerWhereInput = {
   publishedAt_not_in?: InputMaybe<Array<Scalars['DateTime']>>;
   publishedBy?: InputMaybe<UserWhereInput>;
   question?: InputMaybe<QuestionWhereInput>;
-  reds?: InputMaybe<Fraction>;
+  redWineShare?: InputMaybe<Scalars['Float']>;
+  /** All values greater than the given value. */
+  redWineShare_gt?: InputMaybe<Scalars['Float']>;
+  /** All values greater than or equal the given value. */
+  redWineShare_gte?: InputMaybe<Scalars['Float']>;
   /** All values that are contained in given list. */
-  reds_in?: InputMaybe<Array<Fraction>>;
+  redWineShare_in?: InputMaybe<Array<Scalars['Float']>>;
+  /** All values less than the given value. */
+  redWineShare_lt?: InputMaybe<Scalars['Float']>;
+  /** All values less than or equal the given value. */
+  redWineShare_lte?: InputMaybe<Scalars['Float']>;
   /** All values that are not equal to given value. */
-  reds_not?: InputMaybe<Fraction>;
+  redWineShare_not?: InputMaybe<Scalars['Float']>;
   /** All values that are not contained in given list. */
-  reds_not_in?: InputMaybe<Array<Fraction>>;
+  redWineShare_not_in?: InputMaybe<Array<Scalars['Float']>>;
   scheduledIn_every?: InputMaybe<ScheduledOperationWhereInput>;
   scheduledIn_none?: InputMaybe<ScheduledOperationWhereInput>;
   scheduledIn_some?: InputMaybe<ScheduledOperationWhereInput>;
@@ -497,6 +498,21 @@ export type AnswerWhereInput = {
   /** All values that are not contained in given list. */
   updatedAt_not_in?: InputMaybe<Array<Scalars['DateTime']>>;
   updatedBy?: InputMaybe<UserWhereInput>;
+  wineBody?: InputMaybe<Scalars['Int']>;
+  /** All values greater than the given value. */
+  wineBody_gt?: InputMaybe<Scalars['Int']>;
+  /** All values greater than or equal the given value. */
+  wineBody_gte?: InputMaybe<Scalars['Int']>;
+  /** All values that are contained in given list. */
+  wineBody_in?: InputMaybe<Array<Scalars['Int']>>;
+  /** All values less than the given value. */
+  wineBody_lt?: InputMaybe<Scalars['Int']>;
+  /** All values less than or equal the given value. */
+  wineBody_lte?: InputMaybe<Scalars['Int']>;
+  /** All values that are not equal to given value. */
+  wineBody_not?: InputMaybe<Scalars['Int']>;
+  /** All values that are not contained in given list. */
+  wineBody_not_in?: InputMaybe<Array<Scalars['Int']>>;
 };
 
 /** References Answer record uniquely */
@@ -1247,14 +1263,6 @@ export type DocumentVersion = {
   revision: Scalars['Int'];
   stage: Stage;
 };
-
-export enum Fraction {
-  All = 'all',
-  Half = 'half',
-  None = 'none',
-  Quarter = 'quarter',
-  ThreeQuarters = 'three_quarters'
-}
 
 export enum ImageFit {
   /** Resizes the image to fit within the specified parameters without distorting, cropping, or changing the aspect ratio. */
@@ -4069,7 +4077,7 @@ export enum _SystemDateTimeFieldVariation {
 export type GetQuestionsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetQuestionsQuery = { __typename?: 'Query', questions: Array<{ __typename?: 'Question', title: string, id: string, answers: Array<{ __typename?: 'Answer', body: number, id: string, reds?: Fraction | null, title: string, image?: { __typename?: 'Asset', url: string } | null }> }> };
+export type GetQuestionsQuery = { __typename?: 'Query', questions: Array<{ __typename?: 'Question', title: string, id: string, answers: Array<{ __typename?: 'Answer', wineBody: number, id: string, redWineShare?: number | null, title: string, image?: { __typename?: 'Asset', url: string } | null }> }> };
 
 
 export const GetQuestionsDocument = gql`
@@ -4078,9 +4086,9 @@ export const GetQuestionsDocument = gql`
     title
     id
     answers {
-      body
+      wineBody
       id
-      reds
+      redWineShare
       title
       image {
         url
