@@ -1,0 +1,15 @@
+query GetQuestions {
+  questions {
+    title
+    id
+    answers {
+      body
+      id
+      reds
+      title
+      image {
+        url
+      }
+    }
+  }
+}
