@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import quizReducer from './quizSlice';
-import wineReducer from './wineSlice'
+import wineReducer from './wineSlice';
 
 export const store = configureStore({
   reducer: {
