@@ -13,7 +13,7 @@ export function Wine(props: WineProps) {
   return (
     <div>
       <img src={props.image.url} className="w-40" />
-      <p>{props.country}</p>
+      <p>{props.title}</p>
       <p>{props.grape}</p>
       <p>
         {props.region}, {props.country}
