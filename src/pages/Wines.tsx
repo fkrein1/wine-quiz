@@ -7,10 +7,11 @@ export function Wines() {
   const { data } = useGetWinesQuery();
   const redWineShare = useAppSelector((state) => state.wine.redWineShare);
   const wineBody = useAppSelector((state) => state.wine.wineBody);
+  const winesToShow = 4;
 
   function redSelection() {
     if (!data) return [];
-    const redsToShow = Math.round(4 * redWineShare);
+    const redsToShow = Math.round(winesToShow * redWineShare);
     const redWines = data?.wines
       .filter(
         (wine) => wine.type === 'red' && Math.abs(wine.body - wineBody) <= 3,
@@ -21,7 +22,7 @@ export function Wines() {
 
   function whiteSelection() {
     if (!data) return [];
-    const whitesToShow = Math.round(4 * (1 - redWineShare));
+    const whitesToShow = Math.round(winesToShow * (1 - redWineShare));
     const whiteWines = data?.wines
       .filter(
         (wine) => wine.type === 'white' && Math.abs(wine.body - wineBody) <= 3,
@@ -37,7 +38,7 @@ export function Wines() {
     <div>
       <Header />
       <h1>Sua seleção de Vinhos</h1>
-      <button>comprar</button>
+      <button>Comprar</button>
       {wineSelection.map((wine) => (
         <Wine
           country={wine.country}

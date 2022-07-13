@@ -4,7 +4,6 @@ import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
 
-
 interface AnswerProps {
   wineBody: number;
   redWineShare?: number | null;
