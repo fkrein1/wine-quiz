@@ -17,7 +17,8 @@ export function Quiz() {
   return (
     <div>
       <Header />
-      <div className="flex flex-col justify-center gap-4">
+      <h1 className="text-2xl font-bold text-center p-5">{data?.questions[currentQuestion].title}</h1>
+      <div className="flex flex-wrap justify-center gap-4">
       {data?.questions[currentQuestion].answers.map((answer) => (
         <Answer 
           title={answer.title} 
