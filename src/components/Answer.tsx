@@ -21,14 +21,12 @@ export function Answer(props: AnswerProps) {
   const navigate = useNavigate();
 
   function handleBtnClick(wineBody: number, redWineShare?: number | null) {
-    if (redWineShare) dispatch(setRedWineShare(redWineShare));
+    if (redWineShare || redWineShare === 0) dispatch(setRedWineShare(redWineShare));
     dispatch(incrementWineBody(wineBody));
     const isLastQuestion = currentQuestion === maxQuestions - 1;
     if (isLastQuestion) return navigate('/wines');
     dispatch(nextQuestion());
   }
-
-  console.log(!props.image)
 
   return (
     <button
