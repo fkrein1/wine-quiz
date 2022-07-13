@@ -540,6 +540,7 @@ export type Asset = Node & {
   /** The unique identifier */
   id: Scalars['ID'];
   imageAnswer: Array<Answer>;
+  imageWine: Array<Wine>;
   /** System Locale field */
   locale: Locale;
   /** Get the other localizations for this document */
@@ -604,6 +605,19 @@ export type AssetImageAnswerArgs = {
   orderBy?: InputMaybe<AnswerOrderByInput>;
   skip?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<AnswerWhereInput>;
+};
+
+
+/** Asset system model */
+export type AssetImageWineArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  locales?: InputMaybe<Array<Locale>>;
+  orderBy?: InputMaybe<WineOrderByInput>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<WineWhereInput>;
 };
 
 
@@ -678,6 +692,7 @@ export type AssetCreateInput = {
   handle: Scalars['String'];
   height?: InputMaybe<Scalars['Float']>;
   imageAnswer?: InputMaybe<AnswerCreateManyInlineInput>;
+  imageWine?: InputMaybe<WineCreateManyInlineInput>;
   /** Inline mutations for managing document localizations excluding the default locale */
   localizations?: InputMaybe<AssetCreateLocalizationsInput>;
   mimeType?: InputMaybe<Scalars['String']>;
@@ -779,6 +794,9 @@ export type AssetManyWhereInput = {
   imageAnswer_every?: InputMaybe<AnswerWhereInput>;
   imageAnswer_none?: InputMaybe<AnswerWhereInput>;
   imageAnswer_some?: InputMaybe<AnswerWhereInput>;
+  imageWine_every?: InputMaybe<WineWhereInput>;
+  imageWine_none?: InputMaybe<WineWhereInput>;
+  imageWine_some?: InputMaybe<WineWhereInput>;
   publishedAt?: InputMaybe<Scalars['DateTime']>;
   /** All values greater than the given value. */
   publishedAt_gt?: InputMaybe<Scalars['DateTime']>;
@@ -852,6 +870,7 @@ export type AssetUpdateInput = {
   handle?: InputMaybe<Scalars['String']>;
   height?: InputMaybe<Scalars['Float']>;
   imageAnswer?: InputMaybe<AnswerUpdateManyInlineInput>;
+  imageWine?: InputMaybe<WineUpdateManyInlineInput>;
   /** Manage document localizations */
   localizations?: InputMaybe<AssetUpdateLocalizationsInput>;
   mimeType?: InputMaybe<Scalars['String']>;
@@ -1078,6 +1097,9 @@ export type AssetWhereInput = {
   imageAnswer_every?: InputMaybe<AnswerWhereInput>;
   imageAnswer_none?: InputMaybe<AnswerWhereInput>;
   imageAnswer_some?: InputMaybe<AnswerWhereInput>;
+  imageWine_every?: InputMaybe<WineWhereInput>;
+  imageWine_none?: InputMaybe<WineWhereInput>;
+  imageWine_some?: InputMaybe<WineWhereInput>;
   mimeType?: InputMaybe<Scalars['String']>;
   /** All values containing the given string. */
   mimeType_contains?: InputMaybe<Scalars['String']>;
@@ -1329,6 +1351,8 @@ export type Mutation = {
   createQuestion?: Maybe<Question>;
   /** Create one scheduledRelease */
   createScheduledRelease?: Maybe<ScheduledRelease>;
+  /** Create one wine */
+  createWine?: Maybe<Wine>;
   /** Delete one answer from _all_ existing stages. Returns deleted document. */
   deleteAnswer?: Maybe<Answer>;
   /** Delete one asset from _all_ existing stages. Returns deleted document. */
@@ -1354,12 +1378,21 @@ export type Mutation = {
   deleteManyQuestions: BatchPayload;
   /** Delete many Question documents, return deleted documents */
   deleteManyQuestionsConnection: QuestionConnection;
+  /**
+   * Delete many Wine documents
+   * @deprecated Please use the new paginated many mutation (deleteManyWinesConnection)
+   */
+  deleteManyWines: BatchPayload;
+  /** Delete many Wine documents, return deleted documents */
+  deleteManyWinesConnection: WineConnection;
   /** Delete one question from _all_ existing stages. Returns deleted document. */
   deleteQuestion?: Maybe<Question>;
   /** Delete and return scheduled operation */
   deleteScheduledOperation?: Maybe<ScheduledOperation>;
   /** Delete one scheduledRelease from _all_ existing stages. Returns deleted document. */
   deleteScheduledRelease?: Maybe<ScheduledRelease>;
+  /** Delete one wine from _all_ existing stages. Returns deleted document. */
+  deleteWine?: Maybe<Wine>;
   /** Publish one answer */
   publishAnswer?: Maybe<Answer>;
   /** Publish one asset */
@@ -1385,20 +1418,33 @@ export type Mutation = {
   publishManyQuestions: BatchPayload;
   /** Publish many Question documents */
   publishManyQuestionsConnection: QuestionConnection;
+  /**
+   * Publish many Wine documents
+   * @deprecated Please use the new paginated many mutation (publishManyWinesConnection)
+   */
+  publishManyWines: BatchPayload;
+  /** Publish many Wine documents */
+  publishManyWinesConnection: WineConnection;
   /** Publish one question */
   publishQuestion?: Maybe<Question>;
+  /** Publish one wine */
+  publishWine?: Maybe<Wine>;
   /** Schedule to publish one answer */
   schedulePublishAnswer?: Maybe<Answer>;
   /** Schedule to publish one asset */
   schedulePublishAsset?: Maybe<Asset>;
   /** Schedule to publish one question */
   schedulePublishQuestion?: Maybe<Question>;
+  /** Schedule to publish one wine */
+  schedulePublishWine?: Maybe<Wine>;
   /** Unpublish one answer from selected stages. Unpublish either the complete document with its relations, localizations and base data or specific localizations only. */
   scheduleUnpublishAnswer?: Maybe<Answer>;
   /** Unpublish one asset from selected stages. Unpublish either the complete document with its relations, localizations and base data or specific localizations only. */
   scheduleUnpublishAsset?: Maybe<Asset>;
   /** Unpublish one question from selected stages. Unpublish either the complete document with its relations, localizations and base data or specific localizations only. */
   scheduleUnpublishQuestion?: Maybe<Question>;
+  /** Unpublish one wine from selected stages. Unpublish either the complete document with its relations, localizations and base data or specific localizations only. */
+  scheduleUnpublishWine?: Maybe<Wine>;
   /** Unpublish one answer from selected stages. Unpublish either the complete document with its relations, localizations and base data or specific localizations only. */
   unpublishAnswer?: Maybe<Answer>;
   /** Unpublish one asset from selected stages. Unpublish either the complete document with its relations, localizations and base data or specific localizations only. */
@@ -1424,8 +1470,17 @@ export type Mutation = {
   unpublishManyQuestions: BatchPayload;
   /** Find many Question documents that match criteria in specified stage and unpublish from target stages */
   unpublishManyQuestionsConnection: QuestionConnection;
+  /**
+   * Unpublish many Wine documents
+   * @deprecated Please use the new paginated many mutation (unpublishManyWinesConnection)
+   */
+  unpublishManyWines: BatchPayload;
+  /** Find many Wine documents that match criteria in specified stage and unpublish from target stages */
+  unpublishManyWinesConnection: WineConnection;
   /** Unpublish one question from selected stages. Unpublish either the complete document with its relations, localizations and base data or specific localizations only. */
   unpublishQuestion?: Maybe<Question>;
+  /** Unpublish one wine from selected stages. Unpublish either the complete document with its relations, localizations and base data or specific localizations only. */
+  unpublishWine?: Maybe<Wine>;
   /** Update one answer */
   updateAnswer?: Maybe<Answer>;
   /** Update one asset */
@@ -1451,16 +1506,27 @@ export type Mutation = {
   updateManyQuestions: BatchPayload;
   /** Update many Question documents */
   updateManyQuestionsConnection: QuestionConnection;
+  /**
+   * Update many wines
+   * @deprecated Please use the new paginated many mutation (updateManyWinesConnection)
+   */
+  updateManyWines: BatchPayload;
+  /** Update many Wine documents */
+  updateManyWinesConnection: WineConnection;
   /** Update one question */
   updateQuestion?: Maybe<Question>;
   /** Update one scheduledRelease */
   updateScheduledRelease?: Maybe<ScheduledRelease>;
+  /** Update one wine */
+  updateWine?: Maybe<Wine>;
   /** Upsert one answer */
   upsertAnswer?: Maybe<Answer>;
   /** Upsert one asset */
   upsertAsset?: Maybe<Asset>;
   /** Upsert one question */
   upsertQuestion?: Maybe<Question>;
+  /** Upsert one wine */
+  upsertWine?: Maybe<Wine>;
 };
 
 
@@ -1481,6 +1547,11 @@ export type MutationCreateQuestionArgs = {
 
 export type MutationCreateScheduledReleaseArgs = {
   data: ScheduledReleaseCreateInput;
+};
+
+
+export type MutationCreateWineArgs = {
+  data: WineCreateInput;
 };
 
 
@@ -1539,6 +1610,21 @@ export type MutationDeleteManyQuestionsConnectionArgs = {
 };
 
 
+export type MutationDeleteManyWinesArgs = {
+  where?: InputMaybe<WineManyWhereInput>;
+};
+
+
+export type MutationDeleteManyWinesConnectionArgs = {
+  after?: InputMaybe<Scalars['ID']>;
+  before?: InputMaybe<Scalars['ID']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<WineManyWhereInput>;
+};
+
+
 export type MutationDeleteQuestionArgs = {
   where: QuestionWhereUniqueInput;
 };
@@ -1551,6 +1637,11 @@ export type MutationDeleteScheduledOperationArgs = {
 
 export type MutationDeleteScheduledReleaseArgs = {
   where: ScheduledReleaseWhereUniqueInput;
+};
+
+
+export type MutationDeleteWineArgs = {
+  where: WineWhereUniqueInput;
 };
 
 
@@ -1629,9 +1720,33 @@ export type MutationPublishManyQuestionsConnectionArgs = {
 };
 
 
+export type MutationPublishManyWinesArgs = {
+  to?: Array<Stage>;
+  where?: InputMaybe<WineManyWhereInput>;
+};
+
+
+export type MutationPublishManyWinesConnectionArgs = {
+  after?: InputMaybe<Scalars['ID']>;
+  before?: InputMaybe<Scalars['ID']>;
+  first?: InputMaybe<Scalars['Int']>;
+  from?: InputMaybe<Stage>;
+  last?: InputMaybe<Scalars['Int']>;
+  skip?: InputMaybe<Scalars['Int']>;
+  to?: Array<Stage>;
+  where?: InputMaybe<WineManyWhereInput>;
+};
+
+
 export type MutationPublishQuestionArgs = {
   to?: Array<Stage>;
   where: QuestionWhereUniqueInput;
+};
+
+
+export type MutationPublishWineArgs = {
+  to?: Array<Stage>;
+  where: WineWhereUniqueInput;
 };
 
 
@@ -1662,6 +1777,14 @@ export type MutationSchedulePublishQuestionArgs = {
 };
 
 
+export type MutationSchedulePublishWineArgs = {
+  releaseAt?: InputMaybe<Scalars['DateTime']>;
+  releaseId?: InputMaybe<Scalars['String']>;
+  to?: Array<Stage>;
+  where: WineWhereUniqueInput;
+};
+
+
 export type MutationScheduleUnpublishAnswerArgs = {
   from?: Array<Stage>;
   releaseAt?: InputMaybe<Scalars['DateTime']>;
@@ -1685,6 +1808,14 @@ export type MutationScheduleUnpublishQuestionArgs = {
   releaseAt?: InputMaybe<Scalars['DateTime']>;
   releaseId?: InputMaybe<Scalars['String']>;
   where: QuestionWhereUniqueInput;
+};
+
+
+export type MutationScheduleUnpublishWineArgs = {
+  from?: Array<Stage>;
+  releaseAt?: InputMaybe<Scalars['DateTime']>;
+  releaseId?: InputMaybe<Scalars['String']>;
+  where: WineWhereUniqueInput;
 };
 
 
@@ -1760,9 +1891,33 @@ export type MutationUnpublishManyQuestionsConnectionArgs = {
 };
 
 
+export type MutationUnpublishManyWinesArgs = {
+  from?: Array<Stage>;
+  where?: InputMaybe<WineManyWhereInput>;
+};
+
+
+export type MutationUnpublishManyWinesConnectionArgs = {
+  after?: InputMaybe<Scalars['ID']>;
+  before?: InputMaybe<Scalars['ID']>;
+  first?: InputMaybe<Scalars['Int']>;
+  from?: Array<Stage>;
+  last?: InputMaybe<Scalars['Int']>;
+  skip?: InputMaybe<Scalars['Int']>;
+  stage?: InputMaybe<Stage>;
+  where?: InputMaybe<WineManyWhereInput>;
+};
+
+
 export type MutationUnpublishQuestionArgs = {
   from?: Array<Stage>;
   where: QuestionWhereUniqueInput;
+};
+
+
+export type MutationUnpublishWineArgs = {
+  from?: Array<Stage>;
+  where: WineWhereUniqueInput;
 };
 
 
@@ -1829,6 +1984,23 @@ export type MutationUpdateManyQuestionsConnectionArgs = {
 };
 
 
+export type MutationUpdateManyWinesArgs = {
+  data: WineUpdateManyInput;
+  where?: InputMaybe<WineManyWhereInput>;
+};
+
+
+export type MutationUpdateManyWinesConnectionArgs = {
+  after?: InputMaybe<Scalars['ID']>;
+  before?: InputMaybe<Scalars['ID']>;
+  data: WineUpdateManyInput;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<WineManyWhereInput>;
+};
+
+
 export type MutationUpdateQuestionArgs = {
   data: QuestionUpdateInput;
   where: QuestionWhereUniqueInput;
@@ -1838,6 +2010,12 @@ export type MutationUpdateQuestionArgs = {
 export type MutationUpdateScheduledReleaseArgs = {
   data: ScheduledReleaseUpdateInput;
   where: ScheduledReleaseWhereUniqueInput;
+};
+
+
+export type MutationUpdateWineArgs = {
+  data: WineUpdateInput;
+  where: WineWhereUniqueInput;
 };
 
 
@@ -1856,6 +2034,12 @@ export type MutationUpsertAssetArgs = {
 export type MutationUpsertQuestionArgs = {
   upsert: QuestionUpsertInput;
   where: QuestionWhereUniqueInput;
+};
+
+
+export type MutationUpsertWineArgs = {
+  upsert: WineUpsertInput;
+  where: WineWhereUniqueInput;
 };
 
 /** An object with an ID */
@@ -1934,6 +2118,14 @@ export type Query = {
   users: Array<User>;
   /** Retrieve multiple users using the Relay connection interface */
   usersConnection: UserConnection;
+  /** Retrieve a single wine */
+  wine?: Maybe<Wine>;
+  /** Retrieve document version */
+  wineVersion?: Maybe<DocumentVersion>;
+  /** Retrieve multiple wines */
+  wines: Array<Wine>;
+  /** Retrieve multiple wines using the Relay connection interface */
+  winesConnection: WineConnection;
 };
 
 
@@ -2154,6 +2346,44 @@ export type QueryUsersConnectionArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   stage?: Stage;
   where?: InputMaybe<UserWhereInput>;
+};
+
+
+export type QueryWineArgs = {
+  locales?: Array<Locale>;
+  stage?: Stage;
+  where: WineWhereUniqueInput;
+};
+
+
+export type QueryWineVersionArgs = {
+  where: VersionWhereInput;
+};
+
+
+export type QueryWinesArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  locales?: Array<Locale>;
+  orderBy?: InputMaybe<WineOrderByInput>;
+  skip?: InputMaybe<Scalars['Int']>;
+  stage?: Stage;
+  where?: InputMaybe<WineWhereInput>;
+};
+
+
+export type QueryWinesConnectionArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  locales?: Array<Locale>;
+  orderBy?: InputMaybe<WineOrderByInput>;
+  skip?: InputMaybe<Scalars['Int']>;
+  stage?: Stage;
+  where?: InputMaybe<WineWhereInput>;
 };
 
 export type Question = Node & {
@@ -2684,7 +2914,7 @@ export type ScheduledOperationUpdatedByArgs = {
   locales?: InputMaybe<Array<Locale>>;
 };
 
-export type ScheduledOperationAffectedDocument = Answer | Asset | Question;
+export type ScheduledOperationAffectedDocument = Answer | Asset | Question | Wine;
 
 export type ScheduledOperationConnectInput = {
   /** Allow to specify document position in list of connected documents, will default to appending at end of list */
@@ -3995,6 +4225,689 @@ export type VersionWhereInput = {
   stage: Stage;
 };
 
+export type Wine = Node & {
+  __typename?: 'Wine';
+  body: Scalars['Int'];
+  country: Scalars['String'];
+  /** The time the document was created */
+  createdAt: Scalars['DateTime'];
+  /** User that created this document */
+  createdBy?: Maybe<User>;
+  description: Scalars['String'];
+  /** Get the document in other stages */
+  documentInStages: Array<Wine>;
+  grape: Scalars['String'];
+  /** List of Wine versions */
+  history: Array<Version>;
+  /** The unique identifier */
+  id: Scalars['ID'];
+  image: Asset;
+  /** The time the document was published. Null on documents in draft stage. */
+  publishedAt?: Maybe<Scalars['DateTime']>;
+  /** User that last published this document */
+  publishedBy?: Maybe<User>;
+  region: Scalars['String'];
+  scheduledIn: Array<ScheduledOperation>;
+  skuid: Scalars['Int'];
+  /** System stage field */
+  stage: Stage;
+  title: Scalars['String'];
+  type: WineType;
+  /** The time the document was updated */
+  updatedAt: Scalars['DateTime'];
+  /** User that last updated this document */
+  updatedBy?: Maybe<User>;
+};
+
+
+export type WineCreatedByArgs = {
+  locales?: InputMaybe<Array<Locale>>;
+};
+
+
+export type WineDocumentInStagesArgs = {
+  includeCurrent?: Scalars['Boolean'];
+  inheritLocale?: Scalars['Boolean'];
+  stages?: Array<Stage>;
+};
+
+
+export type WineHistoryArgs = {
+  limit?: Scalars['Int'];
+  skip?: Scalars['Int'];
+  stageOverride?: InputMaybe<Stage>;
+};
+
+
+export type WineImageArgs = {
+  locales?: InputMaybe<Array<Locale>>;
+};
+
+
+export type WinePublishedByArgs = {
+  locales?: InputMaybe<Array<Locale>>;
+};
+
+
+export type WineScheduledInArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  locales?: InputMaybe<Array<Locale>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<ScheduledOperationWhereInput>;
+};
+
+
+export type WineUpdatedByArgs = {
+  locales?: InputMaybe<Array<Locale>>;
+};
+
+export type WineConnectInput = {
+  /** Allow to specify document position in list of connected documents, will default to appending at end of list */
+  position?: InputMaybe<ConnectPositionInput>;
+  /** Document to connect */
+  where: WineWhereUniqueInput;
+};
+
+/** A connection to a list of items. */
+export type WineConnection = {
+  __typename?: 'WineConnection';
+  aggregate: Aggregate;
+  /** A list of edges. */
+  edges: Array<WineEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+};
+
+export type WineCreateInput = {
+  body: Scalars['Int'];
+  country: Scalars['String'];
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  description: Scalars['String'];
+  grape: Scalars['String'];
+  image: AssetCreateOneInlineInput;
+  region: Scalars['String'];
+  skuid: Scalars['Int'];
+  title: Scalars['String'];
+  type: WineType;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type WineCreateManyInlineInput = {
+  /** Connect multiple existing Wine documents */
+  connect?: InputMaybe<Array<WineWhereUniqueInput>>;
+  /** Create and connect multiple existing Wine documents */
+  create?: InputMaybe<Array<WineCreateInput>>;
+};
+
+export type WineCreateOneInlineInput = {
+  /** Connect one existing Wine document */
+  connect?: InputMaybe<WineWhereUniqueInput>;
+  /** Create and connect one Wine document */
+  create?: InputMaybe<WineCreateInput>;
+};
+
+/** An edge in a connection. */
+export type WineEdge = {
+  __typename?: 'WineEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node: Wine;
+};
+
+/** Identifies documents */
+export type WineManyWhereInput = {
+  /** Logical AND on all given filters. */
+  AND?: InputMaybe<Array<WineWhereInput>>;
+  /** Logical NOT on all given filters combined by AND. */
+  NOT?: InputMaybe<Array<WineWhereInput>>;
+  /** Logical OR on all given filters. */
+  OR?: InputMaybe<Array<WineWhereInput>>;
+  /** Contains search across all appropriate fields. */
+  _search?: InputMaybe<Scalars['String']>;
+  body?: InputMaybe<Scalars['Int']>;
+  /** All values greater than the given value. */
+  body_gt?: InputMaybe<Scalars['Int']>;
+  /** All values greater than or equal the given value. */
+  body_gte?: InputMaybe<Scalars['Int']>;
+  /** All values that are contained in given list. */
+  body_in?: InputMaybe<Array<Scalars['Int']>>;
+  /** All values less than the given value. */
+  body_lt?: InputMaybe<Scalars['Int']>;
+  /** All values less than or equal the given value. */
+  body_lte?: InputMaybe<Scalars['Int']>;
+  /** All values that are not equal to given value. */
+  body_not?: InputMaybe<Scalars['Int']>;
+  /** All values that are not contained in given list. */
+  body_not_in?: InputMaybe<Array<Scalars['Int']>>;
+  country?: InputMaybe<Scalars['String']>;
+  /** All values containing the given string. */
+  country_contains?: InputMaybe<Scalars['String']>;
+  /** All values ending with the given string. */
+  country_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are contained in given list. */
+  country_in?: InputMaybe<Array<Scalars['String']>>;
+  /** All values that are not equal to given value. */
+  country_not?: InputMaybe<Scalars['String']>;
+  /** All values not containing the given string. */
+  country_not_contains?: InputMaybe<Scalars['String']>;
+  /** All values not ending with the given string */
+  country_not_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are not contained in given list. */
+  country_not_in?: InputMaybe<Array<Scalars['String']>>;
+  /** All values not starting with the given string. */
+  country_not_starts_with?: InputMaybe<Scalars['String']>;
+  /** All values starting with the given string. */
+  country_starts_with?: InputMaybe<Scalars['String']>;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  /** All values greater than the given value. */
+  createdAt_gt?: InputMaybe<Scalars['DateTime']>;
+  /** All values greater than or equal the given value. */
+  createdAt_gte?: InputMaybe<Scalars['DateTime']>;
+  /** All values that are contained in given list. */
+  createdAt_in?: InputMaybe<Array<Scalars['DateTime']>>;
+  /** All values less than the given value. */
+  createdAt_lt?: InputMaybe<Scalars['DateTime']>;
+  /** All values less than or equal the given value. */
+  createdAt_lte?: InputMaybe<Scalars['DateTime']>;
+  /** All values that are not equal to given value. */
+  createdAt_not?: InputMaybe<Scalars['DateTime']>;
+  /** All values that are not contained in given list. */
+  createdAt_not_in?: InputMaybe<Array<Scalars['DateTime']>>;
+  createdBy?: InputMaybe<UserWhereInput>;
+  description?: InputMaybe<Scalars['String']>;
+  /** All values containing the given string. */
+  description_contains?: InputMaybe<Scalars['String']>;
+  /** All values ending with the given string. */
+  description_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are contained in given list. */
+  description_in?: InputMaybe<Array<Scalars['String']>>;
+  /** All values that are not equal to given value. */
+  description_not?: InputMaybe<Scalars['String']>;
+  /** All values not containing the given string. */
+  description_not_contains?: InputMaybe<Scalars['String']>;
+  /** All values not ending with the given string */
+  description_not_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are not contained in given list. */
+  description_not_in?: InputMaybe<Array<Scalars['String']>>;
+  /** All values not starting with the given string. */
+  description_not_starts_with?: InputMaybe<Scalars['String']>;
+  /** All values starting with the given string. */
+  description_starts_with?: InputMaybe<Scalars['String']>;
+  grape?: InputMaybe<Scalars['String']>;
+  /** All values containing the given string. */
+  grape_contains?: InputMaybe<Scalars['String']>;
+  /** All values ending with the given string. */
+  grape_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are contained in given list. */
+  grape_in?: InputMaybe<Array<Scalars['String']>>;
+  /** All values that are not equal to given value. */
+  grape_not?: InputMaybe<Scalars['String']>;
+  /** All values not containing the given string. */
+  grape_not_contains?: InputMaybe<Scalars['String']>;
+  /** All values not ending with the given string */
+  grape_not_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are not contained in given list. */
+  grape_not_in?: InputMaybe<Array<Scalars['String']>>;
+  /** All values not starting with the given string. */
+  grape_not_starts_with?: InputMaybe<Scalars['String']>;
+  /** All values starting with the given string. */
+  grape_starts_with?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['ID']>;
+  /** All values containing the given string. */
+  id_contains?: InputMaybe<Scalars['ID']>;
+  /** All values ending with the given string. */
+  id_ends_with?: InputMaybe<Scalars['ID']>;
+  /** All values that are contained in given list. */
+  id_in?: InputMaybe<Array<Scalars['ID']>>;
+  /** All values that are not equal to given value. */
+  id_not?: InputMaybe<Scalars['ID']>;
+  /** All values not containing the given string. */
+  id_not_contains?: InputMaybe<Scalars['ID']>;
+  /** All values not ending with the given string */
+  id_not_ends_with?: InputMaybe<Scalars['ID']>;
+  /** All values that are not contained in given list. */
+  id_not_in?: InputMaybe<Array<Scalars['ID']>>;
+  /** All values not starting with the given string. */
+  id_not_starts_with?: InputMaybe<Scalars['ID']>;
+  /** All values starting with the given string. */
+  id_starts_with?: InputMaybe<Scalars['ID']>;
+  image?: InputMaybe<AssetWhereInput>;
+  publishedAt?: InputMaybe<Scalars['DateTime']>;
+  /** All values greater than the given value. */
+  publishedAt_gt?: InputMaybe<Scalars['DateTime']>;
+  /** All values greater than or equal the given value. */
+  publishedAt_gte?: InputMaybe<Scalars['DateTime']>;
+  /** All values that are contained in given list. */
+  publishedAt_in?: InputMaybe<Array<Scalars['DateTime']>>;
+  /** All values less than the given value. */
+  publishedAt_lt?: InputMaybe<Scalars['DateTime']>;
+  /** All values less than or equal the given value. */
+  publishedAt_lte?: InputMaybe<Scalars['DateTime']>;
+  /** All values that are not equal to given value. */
+  publishedAt_not?: InputMaybe<Scalars['DateTime']>;
+  /** All values that are not contained in given list. */
+  publishedAt_not_in?: InputMaybe<Array<Scalars['DateTime']>>;
+  publishedBy?: InputMaybe<UserWhereInput>;
+  region?: InputMaybe<Scalars['String']>;
+  /** All values containing the given string. */
+  region_contains?: InputMaybe<Scalars['String']>;
+  /** All values ending with the given string. */
+  region_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are contained in given list. */
+  region_in?: InputMaybe<Array<Scalars['String']>>;
+  /** All values that are not equal to given value. */
+  region_not?: InputMaybe<Scalars['String']>;
+  /** All values not containing the given string. */
+  region_not_contains?: InputMaybe<Scalars['String']>;
+  /** All values not ending with the given string */
+  region_not_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are not contained in given list. */
+  region_not_in?: InputMaybe<Array<Scalars['String']>>;
+  /** All values not starting with the given string. */
+  region_not_starts_with?: InputMaybe<Scalars['String']>;
+  /** All values starting with the given string. */
+  region_starts_with?: InputMaybe<Scalars['String']>;
+  scheduledIn_every?: InputMaybe<ScheduledOperationWhereInput>;
+  scheduledIn_none?: InputMaybe<ScheduledOperationWhereInput>;
+  scheduledIn_some?: InputMaybe<ScheduledOperationWhereInput>;
+  skuid?: InputMaybe<Scalars['Int']>;
+  /** All values greater than the given value. */
+  skuid_gt?: InputMaybe<Scalars['Int']>;
+  /** All values greater than or equal the given value. */
+  skuid_gte?: InputMaybe<Scalars['Int']>;
+  /** All values that are contained in given list. */
+  skuid_in?: InputMaybe<Array<Scalars['Int']>>;
+  /** All values less than the given value. */
+  skuid_lt?: InputMaybe<Scalars['Int']>;
+  /** All values less than or equal the given value. */
+  skuid_lte?: InputMaybe<Scalars['Int']>;
+  /** All values that are not equal to given value. */
+  skuid_not?: InputMaybe<Scalars['Int']>;
+  /** All values that are not contained in given list. */
+  skuid_not_in?: InputMaybe<Array<Scalars['Int']>>;
+  title?: InputMaybe<Scalars['String']>;
+  /** All values containing the given string. */
+  title_contains?: InputMaybe<Scalars['String']>;
+  /** All values ending with the given string. */
+  title_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are contained in given list. */
+  title_in?: InputMaybe<Array<Scalars['String']>>;
+  /** All values that are not equal to given value. */
+  title_not?: InputMaybe<Scalars['String']>;
+  /** All values not containing the given string. */
+  title_not_contains?: InputMaybe<Scalars['String']>;
+  /** All values not ending with the given string */
+  title_not_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are not contained in given list. */
+  title_not_in?: InputMaybe<Array<Scalars['String']>>;
+  /** All values not starting with the given string. */
+  title_not_starts_with?: InputMaybe<Scalars['String']>;
+  /** All values starting with the given string. */
+  title_starts_with?: InputMaybe<Scalars['String']>;
+  type?: InputMaybe<WineType>;
+  /** All values that are contained in given list. */
+  type_in?: InputMaybe<Array<WineType>>;
+  /** All values that are not equal to given value. */
+  type_not?: InputMaybe<WineType>;
+  /** All values that are not contained in given list. */
+  type_not_in?: InputMaybe<Array<WineType>>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+  /** All values greater than the given value. */
+  updatedAt_gt?: InputMaybe<Scalars['DateTime']>;
+  /** All values greater than or equal the given value. */
+  updatedAt_gte?: InputMaybe<Scalars['DateTime']>;
+  /** All values that are contained in given list. */
+  updatedAt_in?: InputMaybe<Array<Scalars['DateTime']>>;
+  /** All values less than the given value. */
+  updatedAt_lt?: InputMaybe<Scalars['DateTime']>;
+  /** All values less than or equal the given value. */
+  updatedAt_lte?: InputMaybe<Scalars['DateTime']>;
+  /** All values that are not equal to given value. */
+  updatedAt_not?: InputMaybe<Scalars['DateTime']>;
+  /** All values that are not contained in given list. */
+  updatedAt_not_in?: InputMaybe<Array<Scalars['DateTime']>>;
+  updatedBy?: InputMaybe<UserWhereInput>;
+};
+
+export enum WineOrderByInput {
+  BodyAsc = 'body_ASC',
+  BodyDesc = 'body_DESC',
+  CountryAsc = 'country_ASC',
+  CountryDesc = 'country_DESC',
+  CreatedAtAsc = 'createdAt_ASC',
+  CreatedAtDesc = 'createdAt_DESC',
+  DescriptionAsc = 'description_ASC',
+  DescriptionDesc = 'description_DESC',
+  GrapeAsc = 'grape_ASC',
+  GrapeDesc = 'grape_DESC',
+  IdAsc = 'id_ASC',
+  IdDesc = 'id_DESC',
+  PublishedAtAsc = 'publishedAt_ASC',
+  PublishedAtDesc = 'publishedAt_DESC',
+  RegionAsc = 'region_ASC',
+  RegionDesc = 'region_DESC',
+  SkuidAsc = 'skuid_ASC',
+  SkuidDesc = 'skuid_DESC',
+  TitleAsc = 'title_ASC',
+  TitleDesc = 'title_DESC',
+  TypeAsc = 'type_ASC',
+  TypeDesc = 'type_DESC',
+  UpdatedAtAsc = 'updatedAt_ASC',
+  UpdatedAtDesc = 'updatedAt_DESC'
+}
+
+export enum WineType {
+  Red = 'red',
+  White = 'white'
+}
+
+export type WineUpdateInput = {
+  body?: InputMaybe<Scalars['Int']>;
+  country?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
+  grape?: InputMaybe<Scalars['String']>;
+  image?: InputMaybe<AssetUpdateOneInlineInput>;
+  region?: InputMaybe<Scalars['String']>;
+  skuid?: InputMaybe<Scalars['Int']>;
+  title?: InputMaybe<Scalars['String']>;
+  type?: InputMaybe<WineType>;
+};
+
+export type WineUpdateManyInlineInput = {
+  /** Connect multiple existing Wine documents */
+  connect?: InputMaybe<Array<WineConnectInput>>;
+  /** Create and connect multiple Wine documents */
+  create?: InputMaybe<Array<WineCreateInput>>;
+  /** Delete multiple Wine documents */
+  delete?: InputMaybe<Array<WineWhereUniqueInput>>;
+  /** Disconnect multiple Wine documents */
+  disconnect?: InputMaybe<Array<WineWhereUniqueInput>>;
+  /** Override currently-connected documents with multiple existing Wine documents */
+  set?: InputMaybe<Array<WineWhereUniqueInput>>;
+  /** Update multiple Wine documents */
+  update?: InputMaybe<Array<WineUpdateWithNestedWhereUniqueInput>>;
+  /** Upsert multiple Wine documents */
+  upsert?: InputMaybe<Array<WineUpsertWithNestedWhereUniqueInput>>;
+};
+
+export type WineUpdateManyInput = {
+  body?: InputMaybe<Scalars['Int']>;
+  country?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
+  grape?: InputMaybe<Scalars['String']>;
+  region?: InputMaybe<Scalars['String']>;
+  skuid?: InputMaybe<Scalars['Int']>;
+  title?: InputMaybe<Scalars['String']>;
+  type?: InputMaybe<WineType>;
+};
+
+export type WineUpdateManyWithNestedWhereInput = {
+  /** Update many input */
+  data: WineUpdateManyInput;
+  /** Document search */
+  where: WineWhereInput;
+};
+
+export type WineUpdateOneInlineInput = {
+  /** Connect existing Wine document */
+  connect?: InputMaybe<WineWhereUniqueInput>;
+  /** Create and connect one Wine document */
+  create?: InputMaybe<WineCreateInput>;
+  /** Delete currently connected Wine document */
+  delete?: InputMaybe<Scalars['Boolean']>;
+  /** Disconnect currently connected Wine document */
+  disconnect?: InputMaybe<Scalars['Boolean']>;
+  /** Update single Wine document */
+  update?: InputMaybe<WineUpdateWithNestedWhereUniqueInput>;
+  /** Upsert single Wine document */
+  upsert?: InputMaybe<WineUpsertWithNestedWhereUniqueInput>;
+};
+
+export type WineUpdateWithNestedWhereUniqueInput = {
+  /** Document to update */
+  data: WineUpdateInput;
+  /** Unique document search */
+  where: WineWhereUniqueInput;
+};
+
+export type WineUpsertInput = {
+  /** Create document if it didn't exist */
+  create: WineCreateInput;
+  /** Update document if it exists */
+  update: WineUpdateInput;
+};
+
+export type WineUpsertWithNestedWhereUniqueInput = {
+  /** Upsert data */
+  data: WineUpsertInput;
+  /** Unique document search */
+  where: WineWhereUniqueInput;
+};
+
+/** Identifies documents */
+export type WineWhereInput = {
+  /** Logical AND on all given filters. */
+  AND?: InputMaybe<Array<WineWhereInput>>;
+  /** Logical NOT on all given filters combined by AND. */
+  NOT?: InputMaybe<Array<WineWhereInput>>;
+  /** Logical OR on all given filters. */
+  OR?: InputMaybe<Array<WineWhereInput>>;
+  /** Contains search across all appropriate fields. */
+  _search?: InputMaybe<Scalars['String']>;
+  body?: InputMaybe<Scalars['Int']>;
+  /** All values greater than the given value. */
+  body_gt?: InputMaybe<Scalars['Int']>;
+  /** All values greater than or equal the given value. */
+  body_gte?: InputMaybe<Scalars['Int']>;
+  /** All values that are contained in given list. */
+  body_in?: InputMaybe<Array<Scalars['Int']>>;
+  /** All values less than the given value. */
+  body_lt?: InputMaybe<Scalars['Int']>;
+  /** All values less than or equal the given value. */
+  body_lte?: InputMaybe<Scalars['Int']>;
+  /** All values that are not equal to given value. */
+  body_not?: InputMaybe<Scalars['Int']>;
+  /** All values that are not contained in given list. */
+  body_not_in?: InputMaybe<Array<Scalars['Int']>>;
+  country?: InputMaybe<Scalars['String']>;
+  /** All values containing the given string. */
+  country_contains?: InputMaybe<Scalars['String']>;
+  /** All values ending with the given string. */
+  country_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are contained in given list. */
+  country_in?: InputMaybe<Array<Scalars['String']>>;
+  /** All values that are not equal to given value. */
+  country_not?: InputMaybe<Scalars['String']>;
+  /** All values not containing the given string. */
+  country_not_contains?: InputMaybe<Scalars['String']>;
+  /** All values not ending with the given string */
+  country_not_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are not contained in given list. */
+  country_not_in?: InputMaybe<Array<Scalars['String']>>;
+  /** All values not starting with the given string. */
+  country_not_starts_with?: InputMaybe<Scalars['String']>;
+  /** All values starting with the given string. */
+  country_starts_with?: InputMaybe<Scalars['String']>;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  /** All values greater than the given value. */
+  createdAt_gt?: InputMaybe<Scalars['DateTime']>;
+  /** All values greater than or equal the given value. */
+  createdAt_gte?: InputMaybe<Scalars['DateTime']>;
+  /** All values that are contained in given list. */
+  createdAt_in?: InputMaybe<Array<Scalars['DateTime']>>;
+  /** All values less than the given value. */
+  createdAt_lt?: InputMaybe<Scalars['DateTime']>;
+  /** All values less than or equal the given value. */
+  createdAt_lte?: InputMaybe<Scalars['DateTime']>;
+  /** All values that are not equal to given value. */
+  createdAt_not?: InputMaybe<Scalars['DateTime']>;
+  /** All values that are not contained in given list. */
+  createdAt_not_in?: InputMaybe<Array<Scalars['DateTime']>>;
+  createdBy?: InputMaybe<UserWhereInput>;
+  description?: InputMaybe<Scalars['String']>;
+  /** All values containing the given string. */
+  description_contains?: InputMaybe<Scalars['String']>;
+  /** All values ending with the given string. */
+  description_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are contained in given list. */
+  description_in?: InputMaybe<Array<Scalars['String']>>;
+  /** All values that are not equal to given value. */
+  description_not?: InputMaybe<Scalars['String']>;
+  /** All values not containing the given string. */
+  description_not_contains?: InputMaybe<Scalars['String']>;
+  /** All values not ending with the given string */
+  description_not_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are not contained in given list. */
+  description_not_in?: InputMaybe<Array<Scalars['String']>>;
+  /** All values not starting with the given string. */
+  description_not_starts_with?: InputMaybe<Scalars['String']>;
+  /** All values starting with the given string. */
+  description_starts_with?: InputMaybe<Scalars['String']>;
+  grape?: InputMaybe<Scalars['String']>;
+  /** All values containing the given string. */
+  grape_contains?: InputMaybe<Scalars['String']>;
+  /** All values ending with the given string. */
+  grape_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are contained in given list. */
+  grape_in?: InputMaybe<Array<Scalars['String']>>;
+  /** All values that are not equal to given value. */
+  grape_not?: InputMaybe<Scalars['String']>;
+  /** All values not containing the given string. */
+  grape_not_contains?: InputMaybe<Scalars['String']>;
+  /** All values not ending with the given string */
+  grape_not_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are not contained in given list. */
+  grape_not_in?: InputMaybe<Array<Scalars['String']>>;
+  /** All values not starting with the given string. */
+  grape_not_starts_with?: InputMaybe<Scalars['String']>;
+  /** All values starting with the given string. */
+  grape_starts_with?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['ID']>;
+  /** All values containing the given string. */
+  id_contains?: InputMaybe<Scalars['ID']>;
+  /** All values ending with the given string. */
+  id_ends_with?: InputMaybe<Scalars['ID']>;
+  /** All values that are contained in given list. */
+  id_in?: InputMaybe<Array<Scalars['ID']>>;
+  /** All values that are not equal to given value. */
+  id_not?: InputMaybe<Scalars['ID']>;
+  /** All values not containing the given string. */
+  id_not_contains?: InputMaybe<Scalars['ID']>;
+  /** All values not ending with the given string */
+  id_not_ends_with?: InputMaybe<Scalars['ID']>;
+  /** All values that are not contained in given list. */
+  id_not_in?: InputMaybe<Array<Scalars['ID']>>;
+  /** All values not starting with the given string. */
+  id_not_starts_with?: InputMaybe<Scalars['ID']>;
+  /** All values starting with the given string. */
+  id_starts_with?: InputMaybe<Scalars['ID']>;
+  image?: InputMaybe<AssetWhereInput>;
+  publishedAt?: InputMaybe<Scalars['DateTime']>;
+  /** All values greater than the given value. */
+  publishedAt_gt?: InputMaybe<Scalars['DateTime']>;
+  /** All values greater than or equal the given value. */
+  publishedAt_gte?: InputMaybe<Scalars['DateTime']>;
+  /** All values that are contained in given list. */
+  publishedAt_in?: InputMaybe<Array<Scalars['DateTime']>>;
+  /** All values less than the given value. */
+  publishedAt_lt?: InputMaybe<Scalars['DateTime']>;
+  /** All values less than or equal the given value. */
+  publishedAt_lte?: InputMaybe<Scalars['DateTime']>;
+  /** All values that are not equal to given value. */
+  publishedAt_not?: InputMaybe<Scalars['DateTime']>;
+  /** All values that are not contained in given list. */
+  publishedAt_not_in?: InputMaybe<Array<Scalars['DateTime']>>;
+  publishedBy?: InputMaybe<UserWhereInput>;
+  region?: InputMaybe<Scalars['String']>;
+  /** All values containing the given string. */
+  region_contains?: InputMaybe<Scalars['String']>;
+  /** All values ending with the given string. */
+  region_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are contained in given list. */
+  region_in?: InputMaybe<Array<Scalars['String']>>;
+  /** All values that are not equal to given value. */
+  region_not?: InputMaybe<Scalars['String']>;
+  /** All values not containing the given string. */
+  region_not_contains?: InputMaybe<Scalars['String']>;
+  /** All values not ending with the given string */
+  region_not_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are not contained in given list. */
+  region_not_in?: InputMaybe<Array<Scalars['String']>>;
+  /** All values not starting with the given string. */
+  region_not_starts_with?: InputMaybe<Scalars['String']>;
+  /** All values starting with the given string. */
+  region_starts_with?: InputMaybe<Scalars['String']>;
+  scheduledIn_every?: InputMaybe<ScheduledOperationWhereInput>;
+  scheduledIn_none?: InputMaybe<ScheduledOperationWhereInput>;
+  scheduledIn_some?: InputMaybe<ScheduledOperationWhereInput>;
+  skuid?: InputMaybe<Scalars['Int']>;
+  /** All values greater than the given value. */
+  skuid_gt?: InputMaybe<Scalars['Int']>;
+  /** All values greater than or equal the given value. */
+  skuid_gte?: InputMaybe<Scalars['Int']>;
+  /** All values that are contained in given list. */
+  skuid_in?: InputMaybe<Array<Scalars['Int']>>;
+  /** All values less than the given value. */
+  skuid_lt?: InputMaybe<Scalars['Int']>;
+  /** All values less than or equal the given value. */
+  skuid_lte?: InputMaybe<Scalars['Int']>;
+  /** All values that are not equal to given value. */
+  skuid_not?: InputMaybe<Scalars['Int']>;
+  /** All values that are not contained in given list. */
+  skuid_not_in?: InputMaybe<Array<Scalars['Int']>>;
+  title?: InputMaybe<Scalars['String']>;
+  /** All values containing the given string. */
+  title_contains?: InputMaybe<Scalars['String']>;
+  /** All values ending with the given string. */
+  title_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are contained in given list. */
+  title_in?: InputMaybe<Array<Scalars['String']>>;
+  /** All values that are not equal to given value. */
+  title_not?: InputMaybe<Scalars['String']>;
+  /** All values not containing the given string. */
+  title_not_contains?: InputMaybe<Scalars['String']>;
+  /** All values not ending with the given string */
+  title_not_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are not contained in given list. */
+  title_not_in?: InputMaybe<Array<Scalars['String']>>;
+  /** All values not starting with the given string. */
+  title_not_starts_with?: InputMaybe<Scalars['String']>;
+  /** All values starting with the given string. */
+  title_starts_with?: InputMaybe<Scalars['String']>;
+  type?: InputMaybe<WineType>;
+  /** All values that are contained in given list. */
+  type_in?: InputMaybe<Array<WineType>>;
+  /** All values that are not equal to given value. */
+  type_not?: InputMaybe<WineType>;
+  /** All values that are not contained in given list. */
+  type_not_in?: InputMaybe<Array<WineType>>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+  /** All values greater than the given value. */
+  updatedAt_gt?: InputMaybe<Scalars['DateTime']>;
+  /** All values greater than or equal the given value. */
+  updatedAt_gte?: InputMaybe<Scalars['DateTime']>;
+  /** All values that are contained in given list. */
+  updatedAt_in?: InputMaybe<Array<Scalars['DateTime']>>;
+  /** All values less than the given value. */
+  updatedAt_lt?: InputMaybe<Scalars['DateTime']>;
+  /** All values less than or equal the given value. */
+  updatedAt_lte?: InputMaybe<Scalars['DateTime']>;
+  /** All values that are not equal to given value. */
+  updatedAt_not?: InputMaybe<Scalars['DateTime']>;
+  /** All values that are not contained in given list. */
+  updatedAt_not_in?: InputMaybe<Array<Scalars['DateTime']>>;
+  updatedBy?: InputMaybe<UserWhereInput>;
+};
+
+/** References Wine record uniquely */
+export type WineWhereUniqueInput = {
+  id?: InputMaybe<Scalars['ID']>;
+};
+
 export enum _FilterKind {
   And = 'AND',
   Not = 'NOT',
@@ -4079,6 +4992,11 @@ export type GetQuestionsQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetQuestionsQuery = { __typename?: 'Query', questions: Array<{ __typename?: 'Question', title: string, id: string, answers: Array<{ __typename?: 'Answer', wineBody: number, id: string, redWineShare?: number | null, title: string, image?: { __typename?: 'Asset', url: string } | null }> }> };
 
+export type GetWinesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetWinesQuery = { __typename?: 'Query', wines: Array<{ __typename?: 'Wine', body: number, country: string, description: string, grape: string, id: string, skuid: number, title: string, type: WineType, region: string, image: { __typename?: 'Asset', url: string } }> };
+
 
 export const GetQuestionsDocument = gql`
     query GetQuestions {
@@ -4124,3 +5042,48 @@ export function useGetQuestionsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptio
 export type GetQuestionsQueryHookResult = ReturnType<typeof useGetQuestionsQuery>;
 export type GetQuestionsLazyQueryHookResult = ReturnType<typeof useGetQuestionsLazyQuery>;
 export type GetQuestionsQueryResult = Apollo.QueryResult<GetQuestionsQuery, GetQuestionsQueryVariables>;
+export const GetWinesDocument = gql`
+    query GetWines {
+  wines(first: 50) {
+    body
+    country
+    description
+    grape
+    id
+    skuid
+    title
+    type
+    region
+    image {
+      url
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetWinesQuery__
+ *
+ * To run a query within a React component, call `useGetWinesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetWinesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetWinesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetWinesQuery(baseOptions?: Apollo.QueryHookOptions<GetWinesQuery, GetWinesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetWinesQuery, GetWinesQueryVariables>(GetWinesDocument, options);
+      }
+export function useGetWinesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetWinesQuery, GetWinesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetWinesQuery, GetWinesQueryVariables>(GetWinesDocument, options);
+        }
+export type GetWinesQueryHookResult = ReturnType<typeof useGetWinesQuery>;
+export type GetWinesLazyQueryHookResult = ReturnType<typeof useGetWinesLazyQuery>;
+export type GetWinesQueryResult = Apollo.QueryResult<GetWinesQuery, GetWinesQueryVariables>;

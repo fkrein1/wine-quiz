@@ -1,0 +1,16 @@
+query GetWines {
+  wines(first: 50) {
+    body
+    country
+    description
+    grape
+    id
+    skuid
+    title
+    type
+    region
+    image {
+      url
+    }
+  }
+}
