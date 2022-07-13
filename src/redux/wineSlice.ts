@@ -3,12 +3,12 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 
 export interface WineState {
   wineBody: number;
-  redWineShare: string;
+  redWineShare: number;
 }
 
 const initialState: WineState = {
   wineBody: 0,
-  redWineShare: '',
+  redWineShare: 0.5,
 };
 
 export const wineSlice = createSlice({
@@ -18,7 +18,7 @@ export const wineSlice = createSlice({
     incrementWineBody: (state, action: PayloadAction<number>) => {
       state.wineBody += action.payload;
     },
-    setRedWineShare: (state, action: PayloadAction<string>) => {
+    setRedWineShare: (state, action: PayloadAction<number>) => {
       state.redWineShare = action.payload;
     },
   },

@@ -19,7 +19,7 @@ export const quizSlice = createSlice({
       state.currentQuestion += 1;
     },
     setMaxQuestions: (state, action: PayloadAction<number>) => {
-      state.maxQuestions += action.payload;
+      state.maxQuestions = action.payload;
     },
   },
 });
