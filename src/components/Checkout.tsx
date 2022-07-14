@@ -15,7 +15,7 @@ export function Checkout(props: CheckoutProps) {
     <a
       href={checkoutLink()}
       target="_blank"
-      className="flex w-40 h-12 bg-purple-500 text-white rounded text-xl items-center justify-center hover:border hover:bg-purple-600"
+      className="flex w-64 h-14 bg-purple-500 text-white rounded text-2xl items-center justify-center hover:border hover:bg-purple-600"
     >
       Comprar
     </a>

@@ -39,11 +39,12 @@ export function Wines() {
   return (
     <div>
       <Header />
-      <h1 className="mt-5 text-3xl text-center">Sua seleção de vinhos...</h1>
-      <div className="flex flex-col gap-3 justify-center mt-3 items-center md:flex-row md:gap-5">
+      <h1 className="mt-5 text-3xl text-center md:text-5xl">Sua seleção de vinhos...</h1>
+      <div className="flex flex-col gap-3 justify-center my-6 items-center md:flex-row md:gap-5 md:my-10">
         <Checkout wines={wineSelection} />
         <Restart />
       </div>
+      <div className="flex flex-col gap-10 items-center justify-center my-10">
       {wineSelection.map((wine) => (
         <Wine
           country={wine.country}
@@ -54,6 +55,7 @@ export function Wines() {
           image={wine.image}
         />
       ))}
+      </div>
     </div>
   );
 }
