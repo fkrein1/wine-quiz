@@ -12,7 +12,11 @@ export function Restart() {
   }
 
   return (
-    <Link onClick={handleRestart} to="/">
+    <Link
+      onClick={handleRestart}
+      to="/"
+      className="flex w-40 h-12 bg-gray-500 text-white rounded text-xl items-center justify-center hover:border hover:bg-gray-600" 
+    >
       Refazer Quiz
     </Link>
   );

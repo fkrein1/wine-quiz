@@ -33,7 +33,7 @@ export function Answer(props: AnswerProps) {
       type="button"
       onClick={() => handleBtnClick(props.wineBody, props.redWineShare)}
       className={classNames(
-        'flex flex-col justify-center items-center gap-1 bg-gray-50 p-2 text-lg break-words w-40 h-30 md:w-60 md:h-44 md:p-8 hover:bg-gray-100',
+        'flex flex-col justify-center items-center gap-1 bg-gray-50 p-2 text-lg break-words w-40 h-30 md:w-60 md:h-44 md:p-8 hover:bg-gray-100 hover:border',
         {
           'md:p-2 w-10/12 md:h-14 md:w-10/12': !props.image,
         },

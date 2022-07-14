@@ -39,9 +39,11 @@ export function Wines() {
   return (
     <div>
       <Header />
-      <h1>Sua seleção de Vinhos</h1>
-      <Checkout wines={wineSelection} />
-      <Restart />
+      <h1 className="mt-5 text-3xl text-center">Sua seleção de vinhos...</h1>
+      <div className="flex flex-col gap-3 justify-center mt-3 items-center md:flex-row md:gap-5">
+        <Checkout wines={wineSelection} />
+        <Restart />
+      </div>
       {wineSelection.map((wine) => (
         <Wine
           country={wine.country}
