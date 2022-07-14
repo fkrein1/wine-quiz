@@ -2,6 +2,7 @@ import { useGetWinesQuery } from '../graphql/generated';
 import { useAppSelector } from '../redux/hooks';
 import { Wine } from '../components/Wine';
 import { Header } from '../components/Header';
+import { Checkout } from '../components/Checkout';
 
 export function Wines() {
   const { data } = useGetWinesQuery();
@@ -38,7 +39,7 @@ export function Wines() {
     <div>
       <Header />
       <h1>Sua seleção de Vinhos</h1>
-      <button>Comprar</button>
+      <Checkout wines={wineSelection} />
       {wineSelection.map((wine) => (
         <Wine
           country={wine.country}
