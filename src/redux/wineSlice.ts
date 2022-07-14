@@ -21,9 +21,12 @@ export const wineSlice = createSlice({
     setRedWineShare: (state, action: PayloadAction<number>) => {
       state.redWineShare = action.payload;
     },
+    resetWineBody: (state) => {
+      state.wineBody = 0;
+    },
   },
 });
 
-export const { incrementWineBody, setRedWineShare } = wineSlice.actions;
+export const { incrementWineBody, setRedWineShare, resetWineBody } = wineSlice.actions;
 
 export default wineSlice.reducer;

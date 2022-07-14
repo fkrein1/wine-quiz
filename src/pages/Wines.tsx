@@ -3,6 +3,7 @@ import { useAppSelector } from '../redux/hooks';
 import { Wine } from '../components/Wine';
 import { Header } from '../components/Header';
 import { Checkout } from '../components/Checkout';
+import { Restart } from '../components/Restart';
 
 export function Wines() {
   const { data } = useGetWinesQuery();
@@ -40,6 +41,7 @@ export function Wines() {
       <Header />
       <h1>Sua seleção de Vinhos</h1>
       <Checkout wines={wineSelection} />
+      <Restart />
       {wineSelection.map((wine) => (
         <Wine
           country={wine.country}

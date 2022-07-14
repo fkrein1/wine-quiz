@@ -21,9 +21,12 @@ export const quizSlice = createSlice({
     setMaxQuestions: (state, action: PayloadAction<number>) => {
       state.maxQuestions = action.payload;
     },
+    resetQuiz: (state) => {
+      state.currentQuestion = 0;
+    },
   },
 });
 
-export const { nextQuestion, setMaxQuestions } = quizSlice.actions;
+export const { nextQuestion, setMaxQuestions, resetQuiz } = quizSlice.actions;
 
 export default quizSlice.reducer;
