@@ -13,7 +13,7 @@ export function Restart() {
 
   return (
     <Link onClick={handleRestart} to="/">
-      Restart
+      Refazer Quiz
     </Link>
   );
 }

@@ -13,7 +13,7 @@ export function Checkout(props: CheckoutProps) {
 
   return (
     <a href={checkoutLink()} target="_blank">
-      Checkout
+      Comprar
     </a>
   );
 }

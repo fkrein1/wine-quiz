@@ -17,19 +17,21 @@ export function Quiz() {
   return (
     <div>
       <Header />
-      <h1 className="text-2xl font-bold text-center p-5">
-        {data?.questions[currentQuestion].title}
-      </h1>
-      <div className="flex flex-wrap justify-center gap-4">
-        {data?.questions[currentQuestion].answers.map((answer) => (
-          <Answer
-            title={answer.title}
-            wineBody={answer.wineBody}
-            redWineShare={answer.redWineShare}
-            image={answer.image}
-            key={answer.id}
-          />
-        ))}
+      <div className="max-w-2xl flex flex-col items-center content-center mx-auto">
+        <h1 className="text-2xl font-bold text-center p-5">
+          {data?.questions[currentQuestion].title}
+        </h1>
+        <div className="flex flex-wrap justify-center gap-4 ">
+          {data?.questions[currentQuestion].answers.map((answer) => (
+            <Answer
+              title={answer.title}
+              wineBody={answer.wineBody}
+              redWineShare={answer.redWineShare}
+              image={answer.image}
+              key={answer.id}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
