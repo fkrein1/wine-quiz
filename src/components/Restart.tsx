@@ -15,7 +15,7 @@ export function Restart() {
     <Link
       onClick={handleRestart}
       to="/"
-      className="flex w-64 h-14 bg-gray-500 text-white rounded text-2xl items-center justify-center hover:border hover:bg-gray-600" 
+      className="flex m-auto mb-8 w-72 h-14 bg-gray-500 text-white rounded text-2xl items-center justify-center hover:border hover:bg-gray-600" 
     >
       Refazer Quiz
     </Link>

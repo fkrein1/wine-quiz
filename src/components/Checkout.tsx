@@ -15,9 +15,9 @@ export function Checkout(props: CheckoutProps) {
     <a
       href={checkoutLink()}
       target="_blank"
-      className="flex w-64 h-14 bg-purple-500 text-white rounded text-2xl items-center justify-center hover:border hover:bg-purple-600"
+      className="flex w-72 h-14 bg-purple-700 text-white rounded text-2xl items-center justify-center hover:border hover:bg-purple-800"
     >
-      Comprar
+      Comprar seleção
     </a>
   );
 }

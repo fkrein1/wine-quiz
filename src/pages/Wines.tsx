@@ -1,9 +1,9 @@
+import { Checkout } from '../components/Checkout';
+import { Header } from '../components/Header';
+import { Restart } from '../components/Restart';
+import { Wine } from '../components/Wine';
 import { useGetWinesQuery } from '../graphql/generated';
 import { useAppSelector } from '../redux/hooks';
-import { Wine } from '../components/Wine';
-import { Header } from '../components/Header';
-import { Checkout } from '../components/Checkout';
-import { Restart } from '../components/Restart';
 
 export function Wines() {
   const { data } = useGetWinesQuery();
@@ -39,23 +39,26 @@ export function Wines() {
   return (
     <div>
       <Header />
-      <h1 className="mt-5 text-3xl text-center md:text-5xl">Sua seleção de vinhos...</h1>
+      <h1 className="mt-5 text-3xl text-center md:text-5xl">
+        Sua seleção de vinhos...
+      </h1>
       <div className="flex flex-col gap-3 justify-center my-6 items-center md:flex-row md:gap-5 md:my-10">
         <Checkout wines={wineSelection} />
-        <Restart />
       </div>
       <div className="flex flex-col gap-10 items-center justify-center my-10">
-      {wineSelection.map((wine) => (
-        <Wine
-          country={wine.country}
-          description={wine.description}
-          grape={wine.grape}
-          title={wine.title}
-          region={wine.region}
-          image={wine.image}
-        />
-      ))}
+        {wineSelection.map((wine) => (
+          <Wine
+            skuid={wine.skuid}
+            country={wine.country}
+            description={wine.description}
+            grape={wine.grape}
+            title={wine.title}
+            region={wine.region}
+            image={wine.image}
+          />
+        ))}
       </div>
+      <Restart />
     </div>
   );
 }

@@ -1,4 +1,5 @@
 interface WineProps {
+  skuid: number;
   country: string;
   description: string;
   grape: string;
@@ -23,6 +24,13 @@ export function Wine(props: WineProps) {
           {props.region}, {props.country}
         </p>
         <p className="text-base md:text-base mt-2">{props.description}</p>
+        <a
+          href={`https://www.worldwine.com.br/checkout/cart/add?sc=1&sku=${props.skuid}&qty=1&seller=1`}
+          target="_blank"
+          className="flex w-52 h-14 mt-4 bg-purple-700 text-white rounded text-2xl items-center justify-center hover:border hover:bg-purple-800 m-auto md:mx-0"
+        >
+          Comprar
+        </a>
       </div>
     </div>
   );
