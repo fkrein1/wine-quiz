@@ -16,7 +16,7 @@ export function Wines() {
     const redsToShow = Math.round(winesToShow * redWineShare);
     const redWines = data?.wines
       .filter(
-        (wine) => wine.type === 'red' && Math.abs(wine.body - wineBody) <= 3,
+        (wine) => wine.type === 'red' && Math.abs(wine.body - Math.max(wineBody, 4)) <= 3,
       )
       .sort(() => 0.5 - Math.random());
     return redWines?.slice(0, redsToShow);
@@ -27,7 +27,7 @@ export function Wines() {
     const whitesToShow = Math.round(winesToShow * (1 - redWineShare));
     const whiteWines = data?.wines
       .filter(
-        (wine) => wine.type === 'white' && Math.abs(wine.body - wineBody) <= 3,
+        (wine) => wine.type === 'white' && Math.abs(wine.body - Math.max(wineBody, 4)) <= 3,
       )
       .sort(() => 0.5 - Math.random());
 
