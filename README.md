@@ -6,7 +6,7 @@ A Wine Quiz built with React, Typescript, Redux Toolkit, Tailwindcss, GraphQl, H
 The user answers a few questions and gets a four wine recommendation with a link to checkout in World Wine E-commerce.
 <br>
 <br>
-<a href="https://wine-quiz.vercel.app">Demo</a>
+<a href="https://wine-quiz-fkrein1.vercel.app/">Demo</a>
 <br>
 <br>
 <img src="./src/assets/coffee.png" height="250"/>
